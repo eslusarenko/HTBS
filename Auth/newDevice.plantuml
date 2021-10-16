@@ -10,7 +10,7 @@ participant Backend as Back
 autonumber
 user -> Mob: phone, passcode
 Mob -> Back: SignUp (phone, passcode)
-
+Back -> Back: Security check (anti-bruteforce)
 == SMS Validation ==
 Back -> Back: Generate OTP
 Back -> sms: Send OTP SMS
