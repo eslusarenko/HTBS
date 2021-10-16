@@ -1,5 +1,5 @@
 @startuml
-title: Sign Pin
+title: Sign in
 
 participant Mobile as Mob
 participant "Push Gateway" as push
@@ -7,10 +7,12 @@ participant Backend as Back
 
 autonumber
 Mob -> Back: phone
+Back -> Back: generate OTP
 Back -> push: send OTP
 push -> Mob: OTP
-Mob -> Mob: sign OTP with private key
+Mob -> Mob: Sign OTP with private key
 Mob -> Back: Signed OTP
-Back -> Back: Validate OTP
+Back -> Back: Validate OTP with public key
+Back -> Back: Generate JWT
 Back -> Mob: JWT (scope: regular)
 @enduml
