@@ -1,0 +1,16 @@
+@startuml
+title: Sign Pin
+
+participant Mobile as Mob
+participant "Push Gateway" as push
+participant Backend as Back
+
+autonumber
+Mob -> Back: phone
+Back -> push: send OTP
+push -> Mob: OTP
+Mob -> Mob: sign OTP with private key
+Mob -> Back: Signed OTP
+Back -> Back: Validate OTP
+Back -> Mob: JWT (scope: regular)
+@enduml

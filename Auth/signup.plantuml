@@ -1,0 +1,29 @@
+@startuml
+title: SignUP
+
+actor Client as user
+participant Mobile as Mob
+participant "SMS Gateway" as sms
+participant "Push Gateway" as push
+participant Backend as Back
+
+autonumber
+user -> Mob: phone, birthday
+user -> Mob: passcode
+Mob -> Back: SignUp (phone, birthday, passcode)
+
+== SMS Validation ==
+Back -> sms: Send validations SMS
+sms -> Mob: SMS OTP
+Mob -> Back: SMS OTP
+Back -> Back: Validate SMS OTP
+Back -> Mob: JWT (scope: auth)
+
+== Push Validation ==
+Mob -> push: get push token
+push -> Mob: push token
+Mob -> Mob: Generate keys (public, private)
+Mob -> Back: Push token and public key
+Back -> Mob: JWT (scope: regular)
+Back -> Back: Map mobile device to user
+@enduml
