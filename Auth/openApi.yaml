@@ -185,6 +185,8 @@ definitions:
       birthdate:
         type: "string"
         format: "date"
+      password:
+        type: "string"
   Signup2:
     type: "object"
     properties:
@@ -193,8 +195,6 @@ definitions:
       pushToken:
         type: "string"
       publicKey:
-        type: "string"
-      password:
         type: "string"
   Login1:
     type: "object"
