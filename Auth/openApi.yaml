@@ -1,0 +1,250 @@
+swagger: "2.0"
+info:
+  description: "Fintech app description"
+  version: "1.0.0"
+  title: "Mobile banking"
+host: "mobile.mybank.com"
+basePath: "/v1"
+tags:
+  - name: "auth"
+
+schemes:
+  - "https"
+
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - "auth"
+      summary: "Signup, step 1. Sends OTP"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Signup1"
+      responses:
+        "202":
+          description: "Operation enqueued"
+        "400":
+          description: "Invalid request object"
+  /auth/signup/complete:
+    post:
+      tags:
+        - "auth"
+      summary: "Signup, step 2. Verifies OTP"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Signup2"
+      responses:
+        "200":
+          description: "Operation successful"
+          schema:
+            $ref: "#/definitions/JWT"
+        "400":
+          description: "Invalid request object"
+
+  /auth/login:
+    post:
+      tags:
+        - "auth"
+      summary: "Login, step 1"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Login1"
+      responses:
+        "202":
+          description: "Operation enqueued"
+        "400":
+          description: "Invalid request object"
+  /auth/login/complete:
+    post:
+      tags:
+        - "auth"
+      summary: "Login, step 2"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Login2"
+      responses:
+        "200":
+          description: "Operation successful"
+          schema:
+            $ref: "#/definitions/JWT"
+        "400":
+          description: "Invalid request object"
+
+  /auth/deviceRegistration:
+    post:
+      tags:
+        - "auth"
+      summary: "New device registration, step 1. Sends OTP"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/NewDevice1"
+      responses:
+        "202":
+          description: "Operation enqueued"
+        "400":
+          description: "Invalid request object"
+  /auth/deviceRegistration/complete:
+    post:
+      tags:
+        - "auth"
+      summary: "New device registration, step 2. Verifies OTP"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/NewDevice2"
+      responses:
+        "200":
+          description: "Operation successful"
+          schema:
+            $ref: "#/definitions/JWT"
+        "400":
+          description: "Invalid request object"
+
+  /auth/resetPassword:
+    post:
+      tags:
+        - "auth"
+      summary: "Reset password, step 1. Sends OTP"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Reset1"
+      responses:
+        "202":
+          description: "Operation enqueued"
+        "400":
+          description: "Invalid request object"
+  /auth/resetPassword/complete:
+    post:
+      tags:
+        - "auth"
+      summary: "Reset password, step 2. Verifies OTP"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/NewDevice2"
+      responses:
+        "200":
+          description: "Operation successful"
+          schema:
+            $ref: "#/definitions/JWT"
+        "400":
+          description: "Invalid request object"
+
+definitions:
+  Signup1:
+    type: "object"
+    properties:
+      phone:
+        type: "string"
+      birthdate:
+        type: "string"
+        format: "date"
+  Signup2:
+    type: "object"
+    properties:
+      otp:
+        type: "string"
+      pushToken:
+        type: "string"
+      publicKey:
+        type: "string"
+      password:
+        type: "string"
+  Login1:
+    type: "object"
+    properties:
+      phone:
+        type: "string"
+      password:
+        type: "string"
+  Login2:
+    type: "object"
+    properties:
+      otp:
+        type: "string"
+      signature:
+        type: "string"
+  NewDevice1:
+    type: "object"
+    properties:
+      phone:
+        type: "string"
+      password:
+        type: "string"
+  NewDevice2:
+    type: "object"
+    properties:
+      otp:
+        type: "string"
+      password:
+        type: "string"
+      pushToken:
+        type: "string"
+      publicKey:
+        type: "string"
+  Reset1:
+    type: "object"
+    properties:
+      phone:
+        type: "string"
+      contractNumber:
+        type: "string"
+  JWT:
+    type: "object"
+    properties:
+      scope:
+        type: "string"
+      expires:
+        type: "string"
+        format: "date-time"
+        description: "date in UTC when token expires"
+      signature:
+        type: "string"
+
+
